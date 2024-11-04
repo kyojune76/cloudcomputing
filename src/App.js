@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Login>
+        <Button position="bottom">회원가입</Button>
+      </Login>
     </div>
   );
 }
 
 export default App;
+const Login = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background-color: #50150150;
+`;
+const Button = styled.button`
+  width: 500px;
+  margin-top: 500px;
+  margin-bottom: 100px;
+  height: 50px;
+  border-style: hidden;
+`;
