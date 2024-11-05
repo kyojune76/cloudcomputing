@@ -9,7 +9,7 @@ function App() {
           <Input type="text" placeholder="아이디" />
           <Input type="password" placeholder="패스워드" />
         </InputContainer>
-        <Button>회원가입</Button>
+        <Button>로그인</Button>
       </Login>
     </div>
   );
@@ -54,7 +54,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 500px;
   height: 50px;
-  margin-top: 250px; /* 버튼을 입력란 아래로 배치 */
+  margin-top: 250px;
   border-style: hidden;
   background-color: #ffffff;
   color: black;
