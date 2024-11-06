@@ -1,6 +1,11 @@
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 function App() {
+  const navigate = useNavigate();
+
+  const HandleLogin = () => {
+    navigate("/login");
+  };
   return (
     <div>
       <Login>
@@ -9,7 +14,7 @@ function App() {
           <Input type="text" placeholder="아이디" />
           <Input type="password" placeholder="패스워드" />
         </InputContainer>
-        <Button>회원가입</Button>
+        <Button onClick={HandleLogin}>회원가입</Button>
       </Login>
     </div>
   );
@@ -24,7 +29,7 @@ const Login = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: #50150150;
+  background-color: #ccc8e3a6;
 `;
 const Title = styled.div`
   color: black;
