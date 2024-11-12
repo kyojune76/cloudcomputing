@@ -4,15 +4,22 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Login from "./Login"; // 로그인 페이지 컴포넌트
 import Calender from "./Calender";
+import Calender2 from "./Calender2";
+import { ImageProvider } from "./ImageContext";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<App />} />
-        <Route path="/calender" element={<Calender />} />
-      </Routes>
+      <ImageProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<App />} />
+
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/calender2" element={<Calender2 />} />
+        </Routes>
+      </ImageProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

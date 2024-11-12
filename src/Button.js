@@ -1,30 +1,25 @@
-import React from "react";
+import React, { Children } from "react";
 import styled from "styled-components";
 
-const StyledButton = styled.button`
-  border: none;
-  border-radius: 10px 0px 0px 0px;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 0.25rem 1rem;
-  color: black;
-  outline: none;
-  cursor: pointer;
-  background: #ffffff;
-  width: 49px;
-  opacity: 0;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-function Button({ title, onClick }) {
-  return <StyledButton onClick={onClick}>{title}</StyledButton>;
+function Button({ onClick }) {
+  return <StyledButton onClick={onClick}>{Children}</StyledButton>;
 }
 
-Button.defaultProps = {
-  title: "Button",
-};
+
 
 export default Button;
+
+const StyledButton = styled.button`
+  width: 200px;  /* 버튼 너비 조정 */
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 110px; 
+  margin-right: 110px;
+`;
