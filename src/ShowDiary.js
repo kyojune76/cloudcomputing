@@ -2,18 +2,16 @@ import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import TextInput from "./Textinput";
 import { ImageContext } from "./ImageContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function Calender({ isEditing = false, onSave }) {
+function ShowDiary({ isEditing = false, onSave }) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const { state } = useLocation();
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
   const [text, setText] = useState("");
 
   // 파일 탐색기 열기
-  const handleAddImage = () => {
-    fileInputRef.current.click();
-  };
 
   // 파일 선택 후 처리
   const handleFileChange = (event) => {
@@ -26,26 +24,19 @@ function Calender({ isEditing = false, onSave }) {
   };
 
   // 저장 처리
-  const handleSave = () => {
-    if (onSave) {
-      onSave(text, imageSrc);
-    } else {
-      navigate("/ShowDiary", { state: { text, imageSrc } });
-    }
+  const DiaryFix = () => {
+    navigate("/Calender2");
   };
 
   return (
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
-        <TextInput text={text} setText={setText} imageSrc={imageSrc} />
+        <TextInput text={text} setText={() => {}} imageSrc={imageSrc} />
+        {imageSrc && <img src={imageSrc} alt="첨부된 이미지" />}
         <ButtonWrapper>
-          <StyledButton onClick={handleAddImage}>
-            {isEditing ? "이미지 수정" : "사진 첨부하기"}
-          </StyledButton>
-          <StyledButton onClick={handleSave}>
-            {isEditing ? "수정 완료" : "저장"}
-          </StyledButton>
+          <StyledButton onClick={DiaryFix}>수정하러가기</StyledButton>
+          <StyledButton>업로드하기</StyledButton>
         </ButtonWrapper>
         <input
           type="file"
@@ -59,7 +50,7 @@ function Calender({ isEditing = false, onSave }) {
   );
 }
 
-export default Calender;
+export default ShowDiary;
 
 const PageContainer = styled.div`
   width: 100%;
@@ -119,7 +110,6 @@ const ButtonWrapper = styled.div`
   bottom: 20px;
   transform: traslateX(-50%);
 `;
-
 const StyledButton = styled.button`
   width: 150px; /* 버튼 너비 조정 */
   height: 40px;

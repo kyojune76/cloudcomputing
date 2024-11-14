@@ -6,6 +6,7 @@ import Login from "./Login"; // 로그인 페이지 컴포넌트
 import Calender from "./Calender";
 import Calender2 from "./Calender2";
 import { ImageProvider } from "./ImageContext";
+import ShowDiary from "./ShowDiary";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +18,7 @@ root.render(
           <Route path="/" element={<App />} />
 
           <Route path="/calender" element={<Calender />} />
+          <Route path="/ShowDiary" element={<ShowDiary />} />
           <Route path="/calender2" element={<Calender2 />} />
         </Routes>
       </ImageProvider>
