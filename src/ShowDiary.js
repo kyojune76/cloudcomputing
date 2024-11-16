@@ -9,31 +9,28 @@ function ShowDiary({ isEditing = false, onSave }) {
   const fileInputRef = useRef(null);
   const { state } = useLocation();
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
-  const [text, setText] = useState("");
+  const [text, setText] = useState(state?.text || ""); // 제목 상태 초기화
+  const [localImageSrc, setLocalImageSrc] = useState(
+    state?.imageSrc || imageSrc || null
+  );
 
-  // 파일 탐색기 열기
-
-  // 파일 선택 후 처리
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setImageSrc(imageUrl);
-      setText((prevText) => prevText + `<img src="${imageUrl}" alt="" />`);
+      setLocalImageSrc(imageUrl);
     }
   };
 
-  // 저장 처리
   const DiaryFix = () => {
-    navigate("/Calender2");
+    navigate("/Calender");
   };
 
   return (
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
-        <TextInput text={text} setText={() => {}} imageSrc={imageSrc} />
-        {imageSrc && <img src={imageSrc} alt="첨부된 이미지" />}
+        <TextInput text={text} setText={setText} imageSrc={localImageSrc} />
         <ButtonWrapper>
           <StyledButton onClick={DiaryFix}>수정하러가기</StyledButton>
           <StyledButton>업로드하기</StyledButton>
@@ -70,7 +67,6 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   background-color: #ccc8e3a6;
   border-radius: 14px;
   position: relative;
@@ -110,8 +106,9 @@ const ButtonWrapper = styled.div`
   bottom: 20px;
   transform: traslateX(-50%);
 `;
+
 const StyledButton = styled.button`
-  width: 150px; /* 버튼 너비 조정 */
+  width: 150px;
   height: 40px;
   border: none;
   border-radius: 10px;
@@ -123,6 +120,7 @@ const StyledButton = styled.button`
   margin-left: 40px;
   margin-right: 40px;
   justify-content: space-between;
+
   @media (mnax-width: 600px) {
     wodth: 40%;
     font-size: 14px;
