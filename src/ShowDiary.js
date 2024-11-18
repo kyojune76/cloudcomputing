@@ -1,42 +1,49 @@
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
-import TextInput from "./Textinput";
+import TextInput from "./Textinput"; // TextInput 컴포넌트
 import { ImageContext } from "./ImageContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function ShowDiary({ isEditing = false, onSave }) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { state } = useLocation();
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
-  const [text, setText] = useState("");
-
-  // 파일 탐색기 열기
-
-  // 파일 선택 후 처리
+  const [text, setText] = useState(state?.text || "");
+  const [localImageSrc, setLocalImageSrc] = useState(
+    state?.imageSrc || imageSrc || null
+  );
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setImageSrc(imageUrl);
-      setText((prevText) => prevText + `<img src="${imageUrl}" alt="" />`);
+      setLocalImageSrc(imageUrl);
     }
   };
 
-  // 저장 처리
-  const DiaryFix = () => {
-    navigate("/Calender2");
+  //수정모드로 전환Calender.js로 이동
+  const goToEditMode = () => {
+    navigate("/Calender", { state: { editMode: true } });
   };
+  const goToUpload = () => {
+    navigate("/ThirdPage");
+  };
+
+  // 저장 처리
 
   return (
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
-        <TextInput text={text} setText={() => {}} imageSrc={imageSrc} />
-        {imageSrc && <img src={imageSrc} alt="첨부된 이미지" />}
+        <TextInput
+          text={text}
+          setText={setText}
+          imageSrc={localImageSrc}
+        />{" "}
+        {/* 하얀 박스 안에 이미지 표시 */}
         <ButtonWrapper>
-          <StyledButton onClick={DiaryFix}>수정하러가기</StyledButton>
-          <StyledButton>업로드하기</StyledButton>
+          <StyledButton onClick={goToEditMode}>수정하러가기</StyledButton>
+          <StyledButton onClick={goToUpload}>업로드하기</StyledButton>
         </ButtonWrapper>
         <input
           type="file"
@@ -49,7 +56,6 @@ function ShowDiary({ isEditing = false, onSave }) {
     </PageContainer>
   );
 }
-
 export default ShowDiary;
 
 const PageContainer = styled.div`

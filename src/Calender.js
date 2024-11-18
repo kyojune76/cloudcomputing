@@ -38,7 +38,9 @@ function Calender({ isEditing = false, onSave }) {
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
+
         <TextInput text={text} setText={setText} imageSrc={imageSrc} />
+
         <ButtonWrapper>
           <StyledButton onClick={handleAddImage}>
             {isEditing ? "이미지 수정" : "사진 첨부하기"}
@@ -47,7 +49,7 @@ function Calender({ isEditing = false, onSave }) {
             {isEditing ? "수정 완료" : "저장"}
           </StyledButton>
         </ButtonWrapper>
-        <input
+        <Input
           type="file"
           ref={fileInputRef}
           style={{ display: "none" }}
@@ -108,6 +110,18 @@ const Title = styled.h1`
     font-size: 8vw;
     margin-top: 5vh;
   }
+`;
+const Input = styled.input`
+  width: 70vh;
+  height: 1vh;
+  position: relative;
+  padding: 30px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  margin-top: 50px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: white;
 `;
 
 const ButtonWrapper = styled.div`

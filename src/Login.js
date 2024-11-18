@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+
 function Loggin() {
   const navigate = useNavigate();
   const HandleLogin = () => {
-    navigate("/calender");
+    navigate("/ThirdPage");
   };
   return (
     <div>

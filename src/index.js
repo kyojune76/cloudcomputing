@@ -7,6 +7,7 @@ import Calender from "./Calender";
 import Calender2 from "./Calender2";
 import { ImageProvider } from "./ImageContext";
 import ShowDiary from "./ShowDiary";
+import ThirdPage from "./ThirdPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,7 +17,7 @@ root.render(
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<App />} />
-
+          <Route path="/ThirdPage" element={<ThirdPage />} />
           <Route path="/calender" element={<Calender />} />
           <Route path="/ShowDiary" element={<ShowDiary />} />
           <Route path="/calender2" element={<Calender2 />} />
