@@ -10,12 +10,10 @@ function Calender({ isEditing = false, onSave }) {
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
   const [text, setText] = useState("");
 
-  // 파일 탐색기 열기
   const handleAddImage = () => {
     fileInputRef.current.click();
   };
 
-  // 파일 선택 후 처리
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -25,7 +23,6 @@ function Calender({ isEditing = false, onSave }) {
     }
   };
 
-  // 저장 처리
   const handleSave = () => {
     if (onSave) {
       onSave(text, imageSrc);
@@ -81,7 +78,6 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   background-color: #ccc8e3a6;
   border-radius: 14px;
   position: relative;
@@ -135,7 +131,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  width: 150px; /* 버튼 너비 조정 */
+  width: 150px;
   height: 40px;
   border: none;
   border-radius: 10px;
@@ -147,6 +143,7 @@ const StyledButton = styled.button`
   margin-left: 40px;
   margin-right: 40px;
   justify-content: space-between;
+
   @media (mnax-width: 600px) {
     wodth: 40%;
     font-size: 14px;

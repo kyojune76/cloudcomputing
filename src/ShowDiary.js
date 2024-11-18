@@ -9,10 +9,18 @@ function ShowDiary({ isEditing = false, onSave }) {
   const fileInputRef = useRef(null);
   const { state } = useLocation();
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
+<<<<<<< HEAD
   const [text, setText] = useState(state?.text || "");
   const [localImageSrc, setLocalImageSrc] = useState(
     state?.imageSrc || imageSrc || null
   );
+=======
+  const [text, setText] = useState(state?.text || ""); // 제목 상태 초기화
+  const [localImageSrc, setLocalImageSrc] = useState(
+    state?.imageSrc || imageSrc || null
+  );
+
+>>>>>>> 9d44f208e4d8b54735a18599cbd50fdb61a18287
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -21,9 +29,14 @@ function ShowDiary({ isEditing = false, onSave }) {
     }
   };
 
+<<<<<<< HEAD
   //수정모드로 전환Calender.js로 이동
   const goToEditMode = () => {
     navigate("/Calender", { state: { editMode: true } });
+=======
+  const DiaryFix = () => {
+    navigate("/Calender");
+>>>>>>> 9d44f208e4d8b54735a18599cbd50fdb61a18287
   };
   const goToUpload = () => {
     navigate("/ThirdPage");
@@ -35,12 +48,16 @@ function ShowDiary({ isEditing = false, onSave }) {
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
+<<<<<<< HEAD
         <TextInput
           text={text}
           setText={setText}
           imageSrc={localImageSrc}
         />{" "}
         {/* 하얀 박스 안에 이미지 표시 */}
+=======
+        <TextInput text={text} setText={setText} imageSrc={localImageSrc} />
+>>>>>>> 9d44f208e4d8b54735a18599cbd50fdb61a18287
         <ButtonWrapper>
           <StyledButton onClick={goToEditMode}>수정하러가기</StyledButton>
           <StyledButton onClick={goToUpload}>업로드하기</StyledButton>
@@ -76,7 +93,6 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   background-color: #ccc8e3a6;
   border-radius: 14px;
   position: relative;
@@ -116,8 +132,9 @@ const ButtonWrapper = styled.div`
   bottom: 20px;
   transform: traslateX(-50%);
 `;
+
 const StyledButton = styled.button`
-  width: 150px; /* 버튼 너비 조정 */
+  width: 150px;
   height: 40px;
   border: none;
   border-radius: 10px;
@@ -129,6 +146,7 @@ const StyledButton = styled.button`
   margin-left: 40px;
   margin-right: 40px;
   justify-content: space-between;
+
   @media (mnax-width: 600px) {
     wodth: 40%;
     font-size: 14px;
