@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Title from "./Title";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import List from "./List";
 
 const GlobalStyle = createGlobalStyle`
@@ -11,9 +11,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 const WriteButton = styled.button`
-  padding: 10px 20px;
+  margin-top: 100px;
   border-radius: 8px;
-  border: none;
+  border: ridge;
   cursor: pointer;
   font-size: 16px;
 `;
@@ -29,9 +29,15 @@ const AppContainer = styled.div`
 `;
 
 function ThirdPage() {
+  const { state } = useLocation();
   const [diaries, setDiaries] = useState([]);
   const navigate = useNavigate();
   const [isReversed, setIsReversed] = useState(false);
+  const handleDiaryClick = (diary) => {
+    navigate("/ShowDiary", {
+      state: { text: diary.text, imageSrc: diary.imageSrc },
+    });
+  };
 
   const GoCalender = () => {
     navigate("/Calender");
@@ -42,13 +48,21 @@ function ThirdPage() {
   };
 
   const displayedDiaries = isReversed ? [...diaries].reverse() : diaries;
-
+  useEffect(() => {
+    if (state?.newDiary) {
+      setDiaries((prevDiaries) => [...prevDiaries, state.newDiary]);
+    }
+  }, [state]);
   return (
     <>
       <GlobalStyle />
       <AppContainer>
         <Title />
-        <List diaries={displayedDiaries} onToggleOrder={toggleOrder} />
+        <List
+          diaries={displayedDiaries}
+          onToggleOrder={toggleOrder}
+          onDiaryClick={handleDiaryClick}
+        />
 
         <WriteButton onClick={GoCalender}>일기쓰기</WriteButton>
       </AppContainer>

@@ -26,7 +26,9 @@ function ShowDiary({ isEditing = false, onSave }) {
     navigate("/Calender", { state: { editMode: true } });
   };
   const goToUpload = () => {
-    navigate("/ThirdPage");
+    navigate("/ThirdPage", {
+      state: { newDiary: { text, imageSrc: localImageSrc } },
+    });
   };
 
   // 저장 처리

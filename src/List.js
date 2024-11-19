@@ -42,18 +42,18 @@ const DiaryTable = styled.table`
 `;
 
 const TableCell = styled.td`
-  padding: 8px;
   border-bottom: 1px solid #ddd;
-  text-align: ${(props) => (props.center ? "center" : "left")};
+  text-align: center;
+  position: left;
+  cursor: pointer;
 `;
 
 const TableHeaderCell = styled.th`
-  padding: 8px;
   border-bottom: 2px solid #ddd;
-  text-align: ${(props) => (props.center ? "center" : "left")};
+  text-align: center;
 `;
 
-const List = ({ diaries, onToggleOrder }) => (
+const List = ({ diaries, onToggleOrder, onDiaryClick }) => (
   <TableContainer>
     <TableHeader>
       <h2>목록</h2>
@@ -62,20 +62,16 @@ const List = ({ diaries, onToggleOrder }) => (
     <DiaryTable>
       <thead>
         <tr>
-          <TableHeaderCell colSpan="3" />
-        </tr>
-        <tr>
           <TableHeaderCell />
-          <TableHeaderCell center>날짜</TableHeaderCell>
-          <TableHeaderCell center>일기</TableHeaderCell>
+          <TableHeaderCell>일기</TableHeaderCell>
         </tr>
       </thead>
       <tbody>
         {diaries.map((diary, index) => (
-          <tr key={index}>
+          <tr key={index} onClick={() => onDiaryClick(diary)}>
             <TableCell>{index + 1}</TableCell>
-            <TableCell center>{diary.date}</TableCell>
-            <TableCell center>{diary.content}</TableCell>
+
+            <TableCell center>{diary.text || "Untitled"}</TableCell>
           </tr>
         ))}
       </tbody>
