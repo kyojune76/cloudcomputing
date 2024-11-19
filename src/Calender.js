@@ -19,7 +19,6 @@ function Calender({ isEditing = false, onSave }) {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setImageSrc(imageUrl);
-      setText((prevText) => prevText + `<img src="${imageUrl}" alt="" />`);
     }
   };
 

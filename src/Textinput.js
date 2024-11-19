@@ -13,11 +13,10 @@ function TextInput({ text, setText, imageSrc }) {
       />
 
       {/* 이미지가 있으면 이미지 박스에 표시 */}
-      {imageSrc && (
-        <ImageBox>
-          <StyledImage src={imageSrc} alt="첨부된 이미지" />
-        </ImageBox>
-      )}
+
+      <ImageBox placeholder="이미지가 표시됩니다.">
+        <StyledImage src={imageSrc} alt="이미지" />
+      </ImageBox>
     </Container>
   );
 }
