@@ -1,20 +1,52 @@
 import styled from "styled-components";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function App() {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
-  const HandleLogin = () => {
-    navigate("/login");
+  const HandleSignUp = async () => {
+    try {
+      // 회원가입 요청
+      const response = await axios.post(
+        "http://43.201.103.60:8080/auth/register", // 실제 API 엔드포인트로 변경
+        {
+          userId,
+          password,
+        }
+      );
+
+      console.log("회원가입 성공:", response.data);
+      alert("회원가입이 완료되었습니다!");
+
+      // 로그인 페이지로 이동
+      navigate("/login");
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
   };
   return (
     <div>
       <Login>
         <InputContainer>
           <Title>BMillion</Title>
-          <Input type="text" placeholder="아이디" />
-          <Input type="password" placeholder="패스워드" />
+          <Input
+            type="text"
+            placeholder="아이디"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="패스워드"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </InputContainer>
-        <Button onClick={HandleLogin}>회원가입</Button>
+        <Button onClick={HandleSignUp}>회원가입</Button>
       </Login>
     </div>
   );
