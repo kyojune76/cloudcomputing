@@ -15,8 +15,8 @@ root.render(
     <Router>
       <ImageProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
           <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/ThirdPage" element={<ThirdPage />} />
           <Route path="/calender" element={<Calender />} />
           <Route path="/ShowDiary" element={<ShowDiary />} />
