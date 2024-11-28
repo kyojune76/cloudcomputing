@@ -3,30 +3,60 @@ import styled from "styled-components";
 import TextInput from "./Textinput";
 import { ImageContext } from "./ImageContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Calender({ isEditing = false, onSave }) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
   const [text, setText] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleAddImage = () => {
     fileInputRef.current.click();
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const imageUrl = URL.createObjectURL(selectedFile);
       setImageSrc(imageUrl);
+      setFile(selectedFile);
     }
   };
 
-  const handleSave = () => {
-    if (onSave) {
-      onSave(text, imageSrc);
-    } else {
+  const handleSave = async () => {
+    if (!text || !file) {
+      alert("텍스트와 이미지를 모두 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("postRequestDto", JSON.stringify({ content: text }));
+
+    formData.append("multipartFile", file);
+    try {
+      const token = localStorage.getItem("jwt"); // JWT 토큰 가져오기
+      console.log("토큰 가져옴");
+      console.log("저장된 JWT 토큰:", token);
+      const response = await axios.post(
+        "http://43.201.103.60:8080/post",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // 토큰 추가
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log("응답 데이터:", response.data);
+      alert("저장 성공!");
       navigate("/ShowDiary", { state: { text, imageSrc } });
+    } catch (error) {
+      console.error("저장 실패:", error);
+      console.error("에러 메시지:", error.response?.data || error.message);
+      alert("저장에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -35,16 +65,22 @@ function Calender({ isEditing = false, onSave }) {
       <ContentContainer>
         <Title>오늘의 일기</Title>
 
+        {/* 텍스트 입력 */}
         <TextInput text={text} setText={setText} imageSrc={imageSrc} />
 
         <ButtonWrapper>
+          {/* 이미지 첨부 */}
           <StyledButton onClick={handleAddImage}>
             {isEditing ? "이미지 수정" : "사진 첨부하기"}
           </StyledButton>
+
+          {/* 저장 버튼 */}
           <StyledButton onClick={handleSave}>
             {isEditing ? "수정 완료" : "저장"}
           </StyledButton>
         </ButtonWrapper>
+
+        {/* 파일 입력 숨김 */}
         <Input
           type="file"
           ref={fileInputRef}
