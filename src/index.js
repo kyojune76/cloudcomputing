@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Login from "./Login"; // 로그인 페이지 컴포넌트
 import Calender from "./Calender";
+import Calender2 from "./Calender2";
 
 import { ImageProvider } from "./ImageContext";
 import ShowDiary from "./ShowDiary";
@@ -19,6 +20,7 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/ThirdPage" element={<ThirdPage />} />
           <Route path="/calender" element={<Calender />} />
+          <Route path="/Calender2" element={<Calender2 />} />
           <Route path="/ShowDiary" element={<ShowDiary />} />
         </Routes>
       </ImageProvider>

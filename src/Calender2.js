@@ -5,7 +5,7 @@ import { ImageContext } from "./ImageContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Calender() {
+function Calender({ isEditing = false, onSave }) {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
@@ -34,35 +34,27 @@ function Calender() {
     const formData = new FormData();
     formData.append("postRequestDto", JSON.stringify({ content: text }));
     formData.append("multipartFile", file);
-
     try {
       const token = localStorage.getItem("jwt"); // JWT 토큰 가져오기
 
       console.log("저장된 JWT 토큰:", token);
-      const response = await axios.post(
+      const response = await axios.get(
         "http://43.201.103.60:8080/post",
         formData,
         {
           headers: {
-            Authorization: ` ${token}`, // 토큰 추가
+            Authorization: `  ${token}`, // 토큰 추가
           },
         }
       );
 
       console.log("응답 데이터:", response.data);
       alert("저장 성공!");
-      // 상태 초기화
-      setText("");
-      setFile(null);
-      setImageSrc(null); // 이미지 초기화
-      // Navigate directly to ThirdPage with new diary data
-      navigate("/ThirdPage", { state: { newDiary: { text, imageSrc } } });
+      navigate("/ThirdPage", { state: { text, imageSrc } });
     } catch (error) {
-      console.error("저장 실패:", error.response?.data || error.message);
       alert("저장에 실패했습니다. 다시 시도해주세요.");
     }
   };
-
   return (
     <PageContainer>
       <ContentContainer>
@@ -73,10 +65,14 @@ function Calender() {
 
         <ButtonWrapper>
           {/* 이미지 첨부 */}
-          <StyledButton onClick={handleAddImage}>사진 첨부하기</StyledButton>
+          <StyledButton onClick={handleAddImage}>
+            {isEditing ? "이미지 수정" : "사진 첨부하기"}
+          </StyledButton>
 
           {/* 저장 버튼 */}
-          <StyledButton onClick={handleSave}>저장</StyledButton>
+          <StyledButton onClick={handleSave}>
+            {isEditing ? "수정 완료" : "저장"}
+          </StyledButton>
         </ButtonWrapper>
 
         {/* 파일 입력 숨김 */}

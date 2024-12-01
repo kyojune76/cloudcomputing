@@ -45,7 +45,7 @@ function ShowDiary({ isEditing = false, onSave }) {
         {/* 하얀 박스 안에 이미지 표시 */}
         <ButtonWrapper>
           <StyledButton onClick={goToEditMode}>수정하러가기</StyledButton>
-          <StyledButton onClick={goToUpload}>업로드하기</StyledButton>
+          <StyledButton onClick={goToUpload}>취소</StyledButton>
         </ButtonWrapper>
         <input
           type="file"
