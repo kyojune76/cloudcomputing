@@ -96,90 +96,69 @@ export default Calender;
 
 const PageContainer = styled.div`
   width: 100%;
-  min-height: 90vh;
-  max-height: 96vh;
+  min-height: 100vh; /* 스마트폰 화면에 꽉 차는 높이 */
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  background-color: #ffffff;
-  margin-top: 12px;
+  background-color: #f5f5f5; /* 연한 회색 배경 */
 `;
 
 const ContentContainer = styled.div`
-  width: 80vh;
-  height: 100vh;
+  width: 90%;
+  max-width: 400px; /* 스마트폰 카드 스타일 */
+  padding: 20px;
+  border-radius: 14px;
+  background-color: #ffffff; /* 흰색 카드 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: #ccc8e3a6;
-  border-radius: 14px;
-  position: relative;
   align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
+  gap: 20px;
   box-sizing: border-box;
-
-  @media (max-width: 500px) {
-    padding: 154px;
-  }
 `;
 
 const Title = styled.h1`
-  font-size: 5W;
-  font-weight: 600;
-  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
   margin: 0;
-  align-self: flex-start;
-  margin-left: 40px;
-  text-align: left;
   width: 100%;
-  margin-top: 5px;
-
-  @media (max-width: 769px) {
-    font-size: 8vw;
-    margin-top: 5vh;
-  }
 `;
+
 const Input = styled.input`
-  width: 70vh;
-  height: 1vh;
-  position: relative;
-  padding: 30px;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  margin-top: 50px;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
   box-sizing: border-box;
-  background-color: white;
 `;
 
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-top: 10px;
-  position: absolute;
-  bottom: 20px;
-  transform: traslateX(-50%);
+  gap: 10px;
 `;
 
 const StyledButton = styled.button`
-  width: 150px;
-  height: 40px;
+  flex: 1;
+  height: 50px;
   border: none;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: black;
+  border-radius: 8px;
+  background-color: #e0e0e0; /* 연한 회색 버튼 */
+  color: #333333; /* 짙은 회색 텍스트 */
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 40px;
-  margin-right: 40px;
-  justify-content: space-between;
-
-  @media (mnax-width: 600px) {
-    wodth: 40%;
-    font-size: 14px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #bdbdbd; /* hover 시 더 진한 회색 */
+  }
+  &:not(:last-child) {
+    margin-right: 10px; /* 버튼 간격 */
   }
 `;

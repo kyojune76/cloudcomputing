@@ -66,16 +66,7 @@ function ThirdPage() {
       <GlobalStyle />
       <AppContainer>
         {/* Title */}
-        <header
-          style={{
-            textAlign: "center",
-            fontSize: "24px",
-            fontWeight: "bold",
-            margin: "20px 0",
-          }}
-        >
-          오늘의 일기
-        </header>
+        <Header>오늘의 일기</Header>
 
         {/* List */}
         <ListContainer>
@@ -83,6 +74,7 @@ function ThirdPage() {
             <thead>
               <tr>
                 <Th>목록</Th>
+                <Th>날짜</Th>
                 <Th>일기</Th>
               </tr>
             </thead>
@@ -93,6 +85,7 @@ function ThirdPage() {
                   onClick={() => handleDiaryClick(diary)}
                 >
                   <Td>{index + 1}</Td>
+                  <Td>{diary.createdDate || "NoDate"}</Td>
                   <Td>{diary.content || "Untitled"}</Td>
                 </Tr>
               ))}
@@ -118,7 +111,8 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #f0f0f0;
+    background-color: #f5f5f5; /* 회색 배경 */
+    font-family: "Arial", sans-serif; /* 모던한 폰트 */
   }
 `;
 
@@ -129,13 +123,17 @@ const AppContainer = styled.div`
   align-items: center;
   width: 600px;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
   border-radius: 15px;
-  background-color: #eae6f8;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  background-color: #ffffff; /* 흰색 카드 */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+`;
+
+const Header = styled.header`
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
 `;
 
 const ListContainer = styled.div`
@@ -149,22 +147,25 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-  background-color: #d6b3ff;
-  padding: 10px;
+  background-color: #e0e0e0;
+  color: #333333;
+  padding: 12px;
   font-size: 18px;
+  border-bottom: 2px solid #cccccc;
 `;
 
 const Tr = styled.tr`
   cursor: pointer;
   &:hover {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
   }
 `;
 
 const Td = styled.td`
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #dddddd;
   text-align: center;
+  color: #555555;
 `;
 
 const WriteButton = styled.button`
@@ -172,11 +173,12 @@ const WriteButton = styled.button`
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background-color: #6c63ff;
+  background-color: #6c757d;
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
   &:hover {
-    background-color: #5a54d6;
+    background-color: #0056b3;
   }
 `;

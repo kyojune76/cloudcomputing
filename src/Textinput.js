@@ -13,9 +13,12 @@ function TextInput({ text, setText, imageSrc }) {
       />
 
       {/* 이미지가 있으면 이미지 박스에 표시 */}
-
-      <ImageBox placeholder="이미지가 표시됩니다.">
-        <StyledImage src={imageSrc} alt="이미지" />
+      <ImageBox>
+        {imageSrc ? (
+          <StyledImage src={imageSrc} alt="이미지" />
+        ) : (
+          <PlaceholderText>이미지가 표시됩니다.</PlaceholderText>
+        )}
       </ImageBox>
     </Container>
   );
@@ -28,39 +31,47 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
-  margin-top: 30px;
-  margin-bottom: 20px;
   justify-content: center;
+  margin: 20px 0;
 `;
 
 const TitleInput = styled.textarea`
-  width: 60vh;
+  width: 90%;
   height: 60px;
-  padding: 0.5rem;
+  padding: 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
   background-color: #fff;
   outline: none;
   resize: none;
+
+  &:focus {
+    border-color: #aaa;
+  }
 `;
 
 const ImageBox = styled.div`
-  width: 60vh;
+  width: 90%;
   height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #ccc;
-  border-radius: 14px;
-  overflow: hidden; /* 이미지를 박스 밖으로 넘치지 않게 */
-  background-color: #f9f9f9;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f6f6f6;
 `;
 
 const StyledImage = styled.img`
   width: 100%;
   height: auto;
-  object-fit: contain; /* 이미지 비율 유지하며 박스 안에 맞춤 */
+  object-fit: contain;
+`;
+
+const PlaceholderText = styled.p`
+  font-size: 0.9rem;
+  color: #aaa;
 `;

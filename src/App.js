@@ -29,10 +29,10 @@ function App() {
     }
   };
   return (
-    <div>
-      <Login>
+    <Wrapper>
+      <Card>
+        <Title>BMillion</Title>
         <InputContainer>
-          <Title>BMillion</Title>
           <Input
             type="text"
             placeholder="아이디"
@@ -47,55 +47,72 @@ function App() {
           />
         </InputContainer>
         <Button onClick={HandleSignUp}>회원가입</Button>
-      </Login>
-    </div>
+      </Card>
+    </Wrapper>
   );
 }
 
 export default App;
 
-const Login = styled.div`
+// 스타일 정의
+const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  background-color: #ccc8e3a6;
+  background-color: #f0f0f0; /* 연한 회색 배경 */
 `;
-const Title = styled.div`
-  color: black;
-  font-style: bold;
-  font-size: 30px;
-`;
-const InputContainer = styled.div`
-  position: absolute;
-  top: 20%;
+
+const Card = styled.div`
+  width: 90%;
+  max-width: 400px; /* 스마트폰 카드 스타일 */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff; /* 흰색 카드 */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   display: flex;
   flex-direction: column;
-  gap: 20px;
   align-items: center;
 `;
 
+const Title = styled.h1`
+  font-size: 24px;
+  color: #333333;
+  margin-bottom: 20px;
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 입력 필드 간격 */
+`;
+
 const Input = styled.input`
-  width: 500px;
+  width: 100%;
   height: 50px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #fafafa;
 `;
 
 const Button = styled.button`
-  width: 500px;
+  width: 100%;
   height: 50px;
-  margin-top: 250px; /* 버튼을 입력란 아래로 배치 */
-  border-style: hidden;
-  background-color: #ffffff;
-  color: black;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #6c757d; /* 초록색 버튼 */
+  color: white;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #0056b3; /* hover 효과 */
+  }
 `;
