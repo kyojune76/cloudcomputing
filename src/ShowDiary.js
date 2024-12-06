@@ -1,18 +1,42 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import TextInput from "./Textinput"; // TextInput 컴포넌트
 import { ImageContext } from "./ImageContext";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
-function ShowDiary({ isEditing = false, onSave }) {
+function ShowDiary() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { state } = useLocation();
-  const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
+  const { setImageSrc } = useContext(ImageContext) || {};
   const [text, setText] = useState(state?.text || "");
-  const [localImageSrc, setLocalImageSrc] = useState(
-    state?.imageSrc || imageSrc || null
-  );
+  const [localImageSrc, setLocalImageSrc] = useState(null);
+  const diaryId = state?.id || null; // ID를 포함하여 수정 처리
+
+  // 서버에서 이미지 가져오기
+  useEffect(() => {
+    const fetchImage = async () => {
+      if (state?.imageSrc) {
+        // 서버 이미지가 이미 state에 있는 경우
+        setLocalImageSrc(state.imageSrc);
+      } else if (diaryId) {
+        try {
+          const response = await axios.get(
+            `http://43.201.103.60:8080/image/${diaryId}`, // 서버에서 이미지를 가져오는 API
+            { responseType: "blob" } // Blob 형식으로 이미지 받아오기
+          );
+          const imageUrl = URL.createObjectURL(response.data);
+          setLocalImageSrc(imageUrl);
+        } catch (error) {
+          console.error("이미지를 가져오는 데 실패했습니다:", error);
+        }
+      }
+    };
+
+    fetchImage();
+  }, [diaryId, state?.imageSrc]);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -21,27 +45,25 @@ function ShowDiary({ isEditing = false, onSave }) {
     }
   };
 
-  //수정모드로 전환Calender.js로 이동
+  // 수정 모드로 Calender.js로 이동
   const goToEditMode = () => {
-    navigate("/Calender", { state: { editMode: true } });
-  };
-  const goToUpload = () => {
-    navigate("/ThirdPage", {
-      state: { newDiary: { text, imageSrc: localImageSrc } },
+    navigate("/Calender", {
+      state: { id: diaryId, text, imageSrc: localImageSrc, editMode: true },
     });
   };
 
-  // 저장 처리
+  // 수정 취소 후 목록으로 돌아가기
+  const goToUpload = () => {
+    navigate("/ThirdPage", {
+      state: { updatedDiary: { id: diaryId, text, imageSrc: localImageSrc } },
+    });
+  };
 
   return (
     <PageContainer>
       <ContentContainer>
         <Title>오늘의 일기</Title>
-        <TextInput
-          text={text}
-          setText={setText}
-          imageSrc={localImageSrc}
-        />{" "}
+        <TextInput text={text} setText={setText} imageSrc={localImageSrc} />
         {/* 하얀 박스 안에 이미지 표시 */}
         <ButtonWrapper>
           <StyledButton onClick={goToEditMode}>수정하러가기</StyledButton>
@@ -58,81 +80,58 @@ function ShowDiary({ isEditing = false, onSave }) {
     </PageContainer>
   );
 }
+
 export default ShowDiary;
 
+// 스타일링
 const PageContainer = styled.div`
   width: 100%;
   min-height: 90vh;
-  max-height: 96vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  background-color: #ffffff;
-  margin-top: 12px;
+  background-color: #f7f7f7; /* 연한 회색 배경 */
 `;
 
 const ContentContainer = styled.div`
-  width: 80vh;
-  height: 100vh;
+  width: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-
-  background-color: #ccc8e3a6;
-  border-radius: 14px;
-  position: relative;
   align-items: center;
-  justify-content: flex-start;
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 14px;
   padding: 20px;
-  box-sizing: border-box;
-
-  @media (max-width: 500px) {
-    padding: 154px;
-  }
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 `;
 
 const Title = styled.h1`
-  font-size: 5W;
-  font-weight: 600;
-  justify-content: center;
-  margin: 0;
-  align-self: flex-start;
-  margin-left: 40px;
-  text-align: left;
-  width: 100%;
-  margin-top: 5px;
-
-  @media (max-width: 769px) {
-    font-size: 8vw;
-    margin-top: 5vh;
-  }
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 `;
 
 const ButtonWrapper = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-top: 10px;
-  position: absolute;
-  bottom: 20px;
-  transform: traslateX(-50%);
+  margin-top: 20px;
 `;
+
 const StyledButton = styled.button`
-  width: 150px; /* 버튼 너비 조정 */
-  height: 40px;
+  flex: 1;
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #e0e0e0; /* 버튼 배경 회색 */
   border: none;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: black;
+  border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 40px;
-  margin-right: 40px;
-  justify-content: space-between;
-  @media (mnax-width: 600px) {
-    wodth: 40%;
-    font-size: 14px;
+  color: #333;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #d6d6d6;
   }
 `;

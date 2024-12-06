@@ -13,7 +13,11 @@ function ThirdPage() {
 
   const handleDiaryClick = (diaries) => {
     navigate("/ShowDiary", {
-      state: { text: diaries.content, imageSrc: diaries.imageSrc },
+      state: {
+        id: diaries.id,
+        text: diaries.content,
+        imageSrc: diaries.imageSrc,
+      },
     });
   };
 
