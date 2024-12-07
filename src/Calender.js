@@ -1,11 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
+
 import TextInput from "./Textinput";
 import { ImageContext } from "./ImageContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function Calender() {
+  const location = useLocation();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const { imageSrc, setImageSrc } = useContext(ImageContext) || {};
@@ -36,33 +38,48 @@ function Calender() {
     formData.append("multipartFile", file);
 
     try {
-      const token = localStorage.getItem("jwt"); // JWT 토큰 가져오기
-
+      const token = localStorage.getItem("jwt");
       console.log("저장된 JWT 토큰:", token);
-      const response = await axios.post(
-        "http://43.201.103.60:8080/post",
-        formData,
-        {
-          headers: {
-            Authorization: ` ${token}`, // 토큰 추가
-          },
-        }
-      );
 
-      console.log("응답 데이터:", response.data);
-      alert("저장 성공!");
+      // 수정 모드인지 확인
+      if (location.state?.editMode) {
+        // 수정 모드: PUT 요청
+        await axios.put(
+          `http://43.201.103.60:8080/post/${location.state.id}`, // 수정 API 엔드포인트
+          formData,
+          {
+            headers: {
+              Authorization: ` ${token}`,
+            },
+          }
+        );
+        alert("수정 성공!");
+      } else {
+        // 새 일기 생성: POST 요청
+        await axios.post(
+          "http://43.201.103.60:8080/post", // 생성 API 엔드포인트
+          formData,
+          {
+            headers: {
+              Authorization: ` ${token}`,
+            },
+          }
+        );
+        alert("저장 성공!");
+      }
+
       // 상태 초기화
       setText("");
       setFile(null);
-      setImageSrc(null); // 이미지 초기화
-      // Navigate directly to ThirdPage with new diary data
-      navigate("/ThirdPage", { state: { newDiary: { text, imageSrc } } });
+      setImageSrc(null);
+
+      // Navigate to ThirdPage
+      navigate("/ThirdPage");
     } catch (error) {
       console.error("저장 실패:", error.response?.data || error.message);
       alert("저장에 실패했습니다. 다시 시도해주세요.");
     }
   };
-
   return (
     <PageContainer>
       <ContentContainer>

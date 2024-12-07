@@ -54,7 +54,7 @@ function ThirdPage() {
     if (state?.newDiary) {
       setDiaries((prevDiaries) => {
         const isDuplicate = prevDiaries.some(
-          (diaries) => diaries.content === state.newDiary.content
+          (diary) => diary.id === state.newDiary.id
         );
         if (isDuplicate) {
           return [...prevDiaries, state.newDiary];
@@ -64,7 +64,7 @@ function ThirdPage() {
       });
       // 상태를 초기화하지 않음으로써 기존 일기가 사라지는 문제를 방지
     }
-  }, [state]);
+  }, [state?.newDiary]);
   return (
     <>
       <GlobalStyle />

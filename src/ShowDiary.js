@@ -17,25 +17,36 @@ function ShowDiary() {
   // 서버에서 이미지 가져오기
   useEffect(() => {
     const fetchImage = async () => {
-      if (state?.imageSrc) {
-        // 서버 이미지가 이미 state에 있는 경우
-        setLocalImageSrc(state.imageSrc);
-      } else if (diaryId) {
-        try {
-          const response = await axios.get(
-            `http://43.201.103.60:8080/image/${diaryId}`, // 서버에서 이미지를 가져오는 API
-            { responseType: "blob" } // Blob 형식으로 이미지 받아오기
-          );
-          const imageUrl = URL.createObjectURL(response.data);
-          setLocalImageSrc(imageUrl);
-        } catch (error) {
-          console.error("이미지를 가져오는 데 실패했습니다:", error);
+      if (!diaryId) return;
+
+      try {
+        const token = localStorage.getItem("jwt");
+        if (!token) {
+          alert("인증이 필요합니다. 다시 로그인해주세요.");
+          navigate("/login");
+          return;
         }
+
+        const response = await axios.get(
+          `http://43.201.103.60:8080/post/${diaryId}`,
+          {
+            headers: {
+              Authorization: ` ${token}`, // 토큰 추가
+            },
+          }
+        );
+        setLocalImageSrc(response.data.fileUrl);
+        setText(response.data.content);
+      } catch (error) {
+        console.error(
+          "이미지를 가져오는 데 실패했습니다:",
+          error.response?.data || error.message
+        );
       }
     };
 
     fetchImage();
-  }, [diaryId, state?.imageSrc]);
+  }, [diaryId, navigate]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
