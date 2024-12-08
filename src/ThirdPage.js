@@ -29,6 +29,28 @@ function ThirdPage() {
     setIsReversed(!isReversed);
   };
 
+  const handleDeleteDiary = async (id, event) => {
+    event.stopPropagation();
+
+    try {
+      const token = localStorage.getItem("jwt");
+      await axios.delete(`http://43.201.103.60:8080/post/${id}`, {
+        headers: {
+          Authorization: ` ${token}`, // 토큰 추가
+        },
+      });
+
+      // 로컬 상태에서 해당 일기 제거
+      setDiaries((prevDiaries) =>
+        prevDiaries.filter((diary) => diary.id !== id)
+      );
+      alert("일기가 성공적으로 삭제되었습니다.");
+    } catch (error) {
+      console.error("일기 삭제 실패:", error.response?.data || error.message);
+      alert("일기를 삭제하는 데 실패했습니다.");
+    }
+  };
+
   const displayedDiaries = isReversed ? [...diaries].reverse() : diaries;
 
   useEffect(() => {
@@ -80,6 +102,7 @@ function ThirdPage() {
                 <Th>목록</Th>
                 <Th>날짜</Th>
                 <Th>일기</Th>
+                <Th>삭제</Th>
               </tr>
             </thead>
             <tbody>
@@ -91,6 +114,13 @@ function ThirdPage() {
                   <Td>{index + 1}</Td>
                   <Td>{diary.createdDate || "NoDate"}</Td>
                   <Td>{diary.content || "Untitled"}</Td>
+                  <Td>
+                    <DeleteButton
+                      onClick={(event) => handleDeleteDiary(diary.id, event)}
+                    >
+                      삭제
+                    </DeleteButton>
+                  </Td>
                 </Tr>
               ))}
             </tbody>
@@ -184,5 +214,17 @@ const WriteButton = styled.button`
   transition: background-color 0.3s ease;
   &:hover {
     background-color: #0056b3;
+  }
+`;
+const DeleteButton = styled.button`
+  padding: 5px 10px;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d9363e;
   }
 `;
